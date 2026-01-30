@@ -12,6 +12,7 @@ const platformDB = require('../model/platform');
 const reviewDB = require('../model/review');
 const gameDB = require('../model/game');
 var verifyToken = require('../auth/verifyToken.js');
+var adminToken = require('../auth/verifyAdmin.js');
 
 const app = express();
 
@@ -147,7 +148,7 @@ app.post('/users/login', function (req, res) {
         else {
 
             res.status(500);
-            res.send(err.statusCode);
+            res.sendStatus(403);
         }
     });
 });
@@ -244,7 +245,7 @@ app.get('/users', function (req, res) {
 //ENDPOINT 2
 //POST /user
 //Add a new user
-app.post('/users', function (req, res) {
+app.post('/users',verifyToken,adminToken, function (req, res) {
 
     //retrieve user input
     var username = req.body.username;
@@ -334,7 +335,7 @@ app.get('/users/:userid', function (req, res) {
 //ENDPOINT 4
 //POST /category
 //Add a new category
-app.post('/category',  function (req, res) {
+app.post('/category',verifyToken,adminToken , function (req, res) {
 
     //retrieve category input
     var catname = req.body.catname;
@@ -384,7 +385,7 @@ app.post('/category',  function (req, res) {
 //ENDPOINT 5
 //POST /platform
 //Add a new platform
-app.post('/platform',  function (req, res) {
+app.post('/platform',verifyToken,adminToken ,  function (req, res) {
 
     //retrieve platform input
     var platform_name = req.body.platform_name;
@@ -432,7 +433,7 @@ app.post('/platform',  function (req, res) {
 //ENDPOINT 6
 //POST /game
 //Add a new game
-app.post('/game', upload.single('game_image'), function (req, res) {
+app.post('/game',verifyToken,adminToken , upload.single('game_image'), function (req, res) {
 
     var title = req.body.title;
     var game_description = req.body.description;

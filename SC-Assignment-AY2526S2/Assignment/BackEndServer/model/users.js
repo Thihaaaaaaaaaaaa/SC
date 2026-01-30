@@ -166,6 +166,43 @@ var userDB = {
 			}
 		});
 	},
+    //admin token va,idation
+    // USED BY ADMIN AUTHORIZATION MIDDLEWARE
+
+    getUserRoleByUserid: function (userid, callback) {
+
+        var dbConn = db.getConnection();
+
+        dbConn.connect(function (err) {
+
+            if (err) {
+                return callback(err, null);
+            }
+
+            else {
+
+                var sql = `
+                    SELECT userid, username, type
+                    FROM users
+                    WHERE userid = ?;
+                `;
+
+                dbConn.query(sql, [userid], function (err, results) {
+
+                    dbConn.end();
+
+                    if (err) {
+                        return callback(err, null);
+                    }
+
+                    else {
+                        return callback(null, results);
+                    }
+                });
+            }
+        });
+    },
+
 
 }
 module.exports = userDB;
