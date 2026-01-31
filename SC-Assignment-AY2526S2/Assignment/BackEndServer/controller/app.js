@@ -245,13 +245,13 @@ app.get('/users', function (req, res) {
 //ENDPOINT 2
 //POST /user
 //Add a new user
-app.post('/users',verifyToken,adminToken, function (req, res) {
+app.post('/users', function (req, res) {
 
     //retrieve user input
     var username = req.body.username;
     var email = req.body.email;
     var password = req.body.password;
-    var type = req.body.type;
+    var type = "user";
     var profile_pic_url = req.body.profile_pic_url;
 
 
